@@ -2,13 +2,13 @@
 
 ​	The proposed system employs a foldable ground platform with four adjustable arms to facilitate transportation, rapid deployment, and online calibration in confined environments. As illustrated in Fig. 1, each sensing unit is mounted on an arm rotating about a fixed hinge, with its rotation angle being the only unknown structural degree of freedom. The hinge locations, arm lengths, and sensor mounting extrinsic are known, while the camera pan-tilt angles are measured inputs. Thus, the proposed design relaxes the conventional fixed-anchor assumption by allowing constrained, low-DoF anchor adjustments rather than arbitrary anchor transforms.
 
-<img src="E:\0jianguoyun\Scarlett\Manuscripts\4 Reliability-Aware Localization Using Range-Aided Visual-Inertial Odometry with Dynamic Anchor Calibration\RAL-R1\writing\sm_for_dynravil\Fig. 1.png" alt="Fig. 1" style="zoom:20%;" />
+<img src="Fig. 1.png" alt="Fig. 1" style="zoom:20%;" />
 
 *Fig. 1. Foldable ground-aerial cooperative localization platform and its deployment configurations. (a) folded for transport, (b) unfolded with arms closed, and (c) unfolded with arms expanded.*
 
 ## **Experiment video**
 
-<video src="E:\0jianguoyun\Scarlett\Manuscripts\4 Reliability-Aware Localization Using Range-Aided Visual-Inertial Odometry with Dynamic Anchor Calibration\RAL-R1\writing\sm_for_dynravil\video.mp4"></video>
+<video src="video.mp4"></video>
 
 
 ## **Principal algorithm settings**
