@@ -13,21 +13,23 @@
 
 ## **Principal algorithm settings**
 
-​	We have clarified the roles and selection criteria of the parameters across the three algorithmic modules: dynamic anchor calibration, reliability-aware measurement evaluation, and sliding-window estimation. A consolidated table has been added to summarize the key hyperparameters, their definitions, and the values used in our experiments, facilitating implementation and reproduction. We have provided reference values for key, straightforward parameters in our design. 
+​	Table P summarizes the principal system and estimation parameters of the current implementation, distinguishing physical configuration from the settings that control estimation. It reports the sensor configuration and sampling rates, estimation windows and trajectory degree, residual and boundary uncertainty scales, structural regularization parameters, and robust-loss parameters. These parameters have distinct roles. Residual scales determine the relative influence of heterogeneous observations; the retained and released angular scales balance geometry retention against responsiveness; and the window length and polynomial degree specify the local trajectory model. 
 
-> **Table P. Principal algorithm settings.** 
-> 
-> | Module | Setting | Value |
->|---|---|---|
-> | Calibration | Release prior $p_{\mathrm{rel}}$; edge-count penalty $\lambda_{\mathrm{size}}$ | $0.02;\ 1$ |
-> | Calibration | $\sqrt{q_\theta^{\mathrm{st}}},\sqrt{q_\theta^{\mathrm{mv}}},\sigma_{\theta,\mathrm{ref}}$ | $1.2^\circ,\ 12^\circ,\ 0.5^\circ$ |
-> | Calibration | AA / UA / camera residual standard deviations | $0.05/0.35/0.08\ \mathrm m$ |
-> | Calibration | Huber thresholds: AA / camera / temporal | $3.0/2.5/1.5^\circ$ |
-> | Calibration | Window epochs / lag epochs / solve rate | $4/1/10\ \mathrm{Hz}$ |
-> | Reliability | Soft-gate thresholds $c_0,c_1$ | $1.96,\ 3.0$ |
-> | Reliability | Student-$t$ $\nu$; scale-update strength $\eta_0$; SD-ratio bounds $[r_{\min},r_{\max}]$ | $4;\ 20;\ [0.1,10]$ |
-> | Reliability | Reference expiry: UWB / camera; confirmation count | $0.32/0.30\ \mathrm s;\ 3$ |
-> | Localization | Degree $n_p$; nominal horizon $T_w$; update rate | $3$ (current hardware configuration), $4$ (phase simulation); $0.32\ \mathrm s$; $25\ \mathrm{Hz}$ |
-> | Localization | Initial boundary scales $\sigma_{p,0},\sigma_{v,0}$ | $0.10\ \mathrm m,\ 0.10\ \mathrm{m\,s^{-1}}$ |
-> | Localization | Initial acceleration / UWB / camera $xy,z$ scales | $0.10\ \mathrm{m\,s^{-2}};\ 0.10\ \mathrm m;\ 0.10,0.10\ \mathrm m$ |
-> | Localization | Effective-sample floor ratio $\gamma_N$ | $0.25$ |
+> **Table P. Principal system and estimation parameters of the current implementation.** 
+>
+> | Category             | Parameter                                                    | Value                                                        |
+> | -------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+> | System configuration | Configured anchors / cameras / processed UAV-tag streams     | $4/4/1 \mathrm {or}2$                                        |
+> | System configuration | Nominal base width / length / arm length: $W_p,L_p,l_i$      | $0.38/0.59/0.80\ \mathrm m$                                  |
+> | System configuration | Nominal IMU / UWB / camera sampling rates                    | $100/50/30\ \mathrm{Hz}$                                     |
+> | Temporal model       | Calibration window / update rate                             | $4$ epochs / $10\ \mathrm{Hz}$                               |
+> | Temporal model       | Trajectory degree $n_p$ / nominal horizon $T_w$ / update rate | $3$ / $0.32\ \mathrm s$ / $25\ \mathrm{Hz}$                  |
+> | Statistical model    | Calibration residual SDs: AA / UA / visual position          | $0.05/0.35/0.08\ \mathrm m$                                  |
+> | Statistical model    | Initial localization residual SDs: acceleration / range / visual $xy,z$ | $0.10\ \mathrm{m\,s^{-2}}$ / $0.10\ \mathrm m$ / $(0.10,0.10)\ \mathrm m$ |
+> | Statistical model    | Initial boundary SDs: position / velocity                    | $0.10\ \mathrm m$ / $0.10\ \mathrm{m\,s^{-1}}$               |
+> | Statistical model    | Angular SDs: $\sqrt{q_\theta^{\rm st}},\sqrt{q_\theta^{\rm mv}},\sigma_{\theta,\rm ref}$ | $1.2^\circ/12^\circ/0.5^\circ$                               |
+> | Statistical model    | Structural-release prior $p_m$ / edge-count coefficient $\lambda_{\rm size}$ | $0.02/1$                                                     |
+> | Statistical model    | Huber transitions: AA / visual position / angular increment  | $3.0/2.5/1.5^\circ$                                          |
+> | Statistical model    | Student-$t$ degrees of freedom $\nu$                         | $4$                                                          |
+>
+> *SD denotes standard deviation; AA/UA denote anchor-anchor/UAV-anchor ranges. AA and visual Huber transitions use normalized residuals; angular SDs are converted to radians. Dimensions are nominal; loaded fitted kinematics and sensor extrinsics determine effective geometry. The phase-sweep simulation uses one camera-UWB unit, $n_p=4$, a 25 Hz camera stream, and visual horizontal/vertical noise SDs of $0.08/0.10$ m.*
